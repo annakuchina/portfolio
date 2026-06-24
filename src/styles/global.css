@@ -297,7 +297,8 @@ section {
 .project-screenshot {
   overflow: hidden;
   background: #ffffff;
-  height: 320px;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
 }
 
 .project-screenshot img {

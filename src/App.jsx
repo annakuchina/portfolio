@@ -60,11 +60,12 @@ const PROJECTS = [
   {
     name: "Jira Pets",
     tag: "Atlassian Forge · Capstone",
-    desc: "Gamified Jira dashboard plugin where your ticket activity drives a virtual pet system — XP, level progression, health, happiness, and an in-app shop. Built in a 6-person Agile team with mentorship from an Atlassian engineer.",
+    desc: "Gamified Jira dashboard plugin where your ticket activity drives a virtual pet system: XP, level progression, health, happiness, and an in-app shop. Built in a 6-person Agile team with mentorship from an Atlassian engineer.",
     stack: ["React", "JavaScript", "Atlassian Forge", "Forge KVS", "Agile"],
     github: null,
     live: null,
     img: "/screenshots/jirapets.png",
+    note: "Available to discuss in interviews",
     reverse: true,
   },
 ];
@@ -74,13 +75,13 @@ const EARLIER = [
     name: "Tower Defence Game",
     tech: "Python · Pygame · Procreate",
     img: "/screenshots/towerdefence.png",
-    link: null,
+    link: "https://github.com/annakuchina/Tower-Defense-Game",
   },
   {
     name: "Match-3 Game",
     tech: "Python · Pygame · Procreate",
     img: "/screenshots/match3.png",
-    link: null,
+    link: "https://github.com/annakuchina/woodland-game",
   },
   {
     name: "Drum Machine",
@@ -249,7 +250,13 @@ export default function App() {
               <div
                 className={`project-card-inner${p.reverse ? " reverse" : ""}`}>
                 <div className="project-screenshot">
-                  <img src={p.img} alt={p.name} />
+                  {p.live ? (
+                    <a href={p.live} target="_blank" rel="noreferrer">
+                      <img src={p.img} alt={p.name} />
+                    </a>
+                  ) : (
+                    <img src={p.img} alt={p.name} />
+                  )}
                 </div>
                 <div className="project-info">
                   <span className="project-tag">{p.tag}</span>
@@ -286,12 +293,10 @@ export default function App() {
                           fontSize: "0.78rem",
                           padding: "0.45rem 0.9rem",
                         }}>
-                        Live demo
+                        Link
                       </a>
                     )}
-                    <span className="project-note">
-                      Available to discuss in interviews
-                    </span>
+                    {p.note && <span className="project-note">{p.note}</span>}
                   </div>
                 </div>
               </div>
@@ -344,26 +349,19 @@ export default function App() {
           </p>
           <div className="earlier-grid">
             {EARLIER.map((p) => (
-              <div className="earlier-card" key={p.name}>
+              <a
+                key={p.name}
+                href={p.link}
+                target="_blank"
+                rel="noreferrer"
+                className="earlier-card"
+                style={{ textDecoration: "none", display: "block" }}>
                 <img className="earlier-img" src={p.img} alt={p.name} />
                 <div className="earlier-info">
                   <p className="earlier-name">{p.name}</p>
                   <p className="earlier-tech">{p.tech}</p>
-                  {p.link && (
-                    <a
-                      href={p.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn btn-outline"
-                      style={{
-                        fontSize: "0.73rem",
-                        padding: "0.35rem 0.8rem",
-                      }}>
-                      View
-                    </a>
-                  )}
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
