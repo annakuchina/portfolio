@@ -1,33 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+import * as d3 from "d3";
 import "./styles/global.css";
 
 const CHIP_COLORS = {
-  frontend: { base: [63, 136, 197], light: [120, 180, 240], dark: false },
-  backend: { base: [19, 111, 99], light: [40, 170, 150], dark: false },
-  language: { base: [255, 186, 8], light: [255, 220, 100], dark: true },
-  ai: { base: [208, 0, 0], light: [255, 80, 80], dark: false },
-  database: { base: [3, 43, 67], light: [20, 90, 140], dark: false },
-  tools: { base: [92, 107, 192], light: [140, 155, 240], dark: false },
-  uiux: { base: [230, 81, 0], light: [255, 140, 60], dark: false },
+  frontend: { base: [63, 136, 197], dark: false },
+  backend: { base: [19, 111, 99], dark: false },
+  language: { base: [255, 186, 8], dark: true },
+  ai: { base: [208, 0, 0], dark: false },
+  database: { base: [3, 43, 67], dark: false },
+  tools: { base: [92, 107, 192], dark: false },
+  uiux: { base: [230, 81, 0], dark: false },
 };
-
-const TECH = [
-  { label: "React", cat: "frontend" },
-  { label: "JavaScript", cat: "frontend" },
-  { label: "UI / UX", cat: "uiux" },
-  { label: "TypeScript", cat: "frontend" },
-  { label: "HTML / CSS", cat: "uiux" },
-  { label: "Python", cat: "language" },
-  { label: "C", cat: "language" },
-  { label: "FastAPI", cat: "backend" },
-  { label: "Algorithms", cat: "tools" },
-  { label: "Atlassian Forge", cat: "tools" },
-  { label: "REST APIs", cat: "backend" },
-  { label: "OpenAI API", cat: "ai" },
-  { label: "Supabase", cat: "database" },
-  { label: "PostgreSQL", cat: "database" },
-  { label: "Git", cat: "tools" },
-];
 
 const LEGEND = [
   { key: "frontend", label: "Frontend" },
@@ -37,6 +20,25 @@ const LEGEND = [
   { key: "database", label: "Database" },
   { key: "tools", label: "Tools" },
   { key: "uiux", label: "UI/UX" },
+];
+
+const NODES = [
+  { id: "React", cat: "frontend", r: 48 },
+  { id: "JavaScript", cat: "frontend", r: 44 },
+  { id: "TypeScript", cat: "frontend", r: 36 },
+  { id: "D3", cat: "frontend", r: 32 },
+  { id: "UI / UX", cat: "uiux", r: 38 },
+  { id: "HTML / CSS", cat: "uiux", r: 34 },
+  { id: "Python", cat: "language", r: 46 },
+  { id: "C", cat: "language", r: 26 },
+  { id: "FastAPI", cat: "backend", r: 40 },
+  { id: "Algorithms", cat: "tools", r: 38 },
+  { id: "Atlassian Forge", cat: "tools", r: 52 },
+  { id: "REST APIs", cat: "backend", r: 36 },
+  { id: "OpenAI API", cat: "ai", r: 43 },
+  { id: "Supabase", cat: "database", r: 40 },
+  { id: "PostgreSQL", cat: "database", r: 38 },
+  { id: "Git", cat: "tools", r: 30 },
 ];
 
 const PROJECTS = [
@@ -91,44 +93,125 @@ const EARLIER = [
   },
 ];
 
-function Chip({ label, cat }) {
-  const gradRef = useRef(null);
-  const c = CHIP_COLORS[cat];
-  const [r, g, b] = c.base;
-  const [lr, lg, lb] = c.light;
+const STATS = [
+  {
+    label: "Degree",
+    value: "Bachelor of Computer Science · UNSW",
+    color: "#3F88C5",
+  },
+  {
+    label: "Focus",
+    value: "Frontend · Full-Stack · AI tooling",
+    color: "#136F63",
+  },
+  {
+    label: "Interests",
+    value: "AI tooling · UI/UX · Full-stack products",
+    color: "#D00000",
+  },
+  {
+    label: "Open to",
+    value: "Junior roles · Sydney or remote",
+    color: "#5C6BC0",
+  },
+];
 
-  const onMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (((e.clientX - rect.left) / rect.width) * 100).toFixed(1);
-    const y = (((e.clientY - rect.top) / rect.height) * 100).toFixed(1);
-    if (gradRef.current) {
-      gradRef.current.style.background = `radial-gradient(circle at ${x}% ${y}%, rgb(${lr},${lg},${lb}), rgb(${r},${g},${b}))`;
-    }
-  };
+function BubbleField() {
+  const svgRef = useRef(null);
+  const wrapRef = useRef(null);
+
+  useEffect(() => {
+    if (!svgRef.current || !wrapRef.current) return;
+    const W = wrapRef.current.offsetWidth || 500;
+    const H = 400;
+    const cx = W / 2,
+      cy = H / 2;
+
+    const svg = d3
+      .select(svgRef.current)
+      .attr("viewBox", `0 0 ${W} ${H}`)
+      .attr("width", W)
+      .attr("height", H);
+
+    svg.selectAll("*").remove();
+
+    const nodes = NODES.map((d) => ({
+      ...d,
+      x: cx + (Math.random() - 0.5) * 300,
+      y: cy + (Math.random() - 0.5) * 300,
+    }));
+    const sim = d3
+      .forceSimulation(nodes)
+      .force("x", d3.forceX(cx).strength(0.08))
+      .force("y", d3.forceY(cy).strength(0.08))
+      .force("collision", d3.forceCollide((d) => d.r + 2).strength(1))
+      .force("charge", d3.forceManyBody().strength(-5))
+      .velocityDecay(0.6)
+      .alphaDecay(0.03);
+
+    const g = svg.selectAll("g").data(nodes).join("g").style("cursor", "grab");
+
+    g.append("circle")
+      .attr("r", (d) => d.r)
+      .attr("fill", (d) => {
+        const [r, g, b] = CHIP_COLORS[d.cat].base;
+        return `rgb(${r},${g},${b})`;
+      });
+
+    g.append("text")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .attr("fill", (d) => (CHIP_COLORS[d.cat].dark ? "#111" : "#fff"))
+      .attr("font-weight", 700)
+      .attr("pointer-events", "none")
+      .attr("font-family", "DM Sans, sans-serif")
+      .text((d) => d.id)
+      .style("font-size", (d) => `${Math.max(8, Math.min(d.r * 0.28, 11))}px`);
+
+    sim.on("tick", () => {
+      g.attr("transform", (d) => {
+        d.x = Math.max(d.r + 4, Math.min(W - d.r - 4, d.x));
+        d.y = Math.max(d.r + 4, Math.min(H - d.r - 4, d.y));
+        return `translate(${d.x},${d.y})`;
+      });
+    });
+
+    g.call(
+      d3
+        .drag()
+        .on("start", (e, d) => {
+          if (!e.active) sim.alphaTarget(0.3).restart();
+          d.fx = d.x;
+          d.fy = d.y;
+        })
+        .on("drag", (e, d) => {
+          d.fx = e.x;
+          d.fy = e.y;
+        })
+        .on("end", (e, d) => {
+          if (!e.active) sim.alphaTarget(0);
+          d.fx = null;
+          d.fy = null;
+        }),
+    );
+
+    return () => sim.stop();
+  }, []);
 
   return (
-    <div
-      className="chip"
-      style={{
-        background: `rgb(${r},${g},${b})`,
-        color: c.dark ? "#111" : "#fff",
-      }}
-      onMouseMove={onMouseMove}>
-      <div className="chip-gradient" ref={gradRef} />
-      <span className="chip-label">{label}</span>
-    </div>
-  );
-}
-
-function SkillChips() {
-  return (
-    <div>
-      <div className="chips-grid">
-        {TECH.map((t) => (
-          <Chip key={t.label} label={t.label} cat={t.cat} />
-        ))}
-      </div>
-      <div className="chips-legend">
+    <div ref={wrapRef} className="bubble-wrap">
+      <svg ref={svgRef} style={{ display: "block", width: "100%" }} />
+      <p
+        style={{
+          textAlign: "center",
+          fontSize: "0.7rem",
+          color: "var(--ink3)",
+          padding: "0.4rem 0",
+          fontFamily: "var(--font-body)",
+        }}>
+        drag to explore ↑
+      </p>
+      <div className="bubble-legend">
         {LEGEND.map((l) => {
           const [r, g, b] = CHIP_COLORS[l.key].base;
           return (
@@ -196,42 +279,31 @@ export default function App() {
       <section className="hero" id="home">
         <div className="container">
           <div className="hero-inner">
-            <h1 className="hero-title">Anna Kuchina</h1>
-            <p className="hero-subtitle">
-              Building software that actually gets used.
-            </p>
-            <p className="hero-bio">
-              CS graduate from UNSW. I build full-stack apps, from the UI down
-              to the API and database. Currently open to junior software
-              engineering roles in Sydney or remote.
-            </p>
-            <div className="hero-links">
-              <a href="#projects" className="btn btn-primary">
-                View projects
-              </a>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-outline">
-                ↓ Resume
-              </a>
-              <a
-                href="https://github.com/annakuchina"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-outline">
-                GitHub
-              </a>
-              <a
-                href="https://linkedin.com/in/annakuchina"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-outline">
-                LinkedIn
-              </a>
+            <div className="hero-grid">
+              <div className="hero-left">
+                <p className="section-eyebrow">Full-Stack Developer · Sydney</p>
+                <h1 className="hero-title">Anna Kuchina</h1>
+                <p className="hero-subtitle">
+                  Building software that actually gets used.
+                </p>
+                <p className="hero-bio">
+                  CS graduate from UNSW. I build full-stack apps, from the UI
+                  down to the API and database. Currently open to junior
+                  software engineering roles in Sydney or remote.
+                </p>
+              </div>
+              <BubbleField />
             </div>
-            <SkillChips />
+            <div className="stats-row">
+              {STATS.map((s) => (
+                <div className="stat" key={s.label}>
+                  <p className="stat-label" style={{ color: s.color }}>
+                    {s.label}
+                  </p>
+                  <p className="stat-value">{s.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -310,6 +382,9 @@ export default function App() {
         <div className="container">
           <p className="section-eyebrow about-centered">Background</p>
           <h2 className="section-title about-centered">About</h2>
+          <p className="about-tagline about-centered">
+            Building software that actually gets used.
+          </p>
           <div className="about-text about-centered">
             <p>
               Full-stack developer based in Sydney, recently graduated from UNSW
@@ -327,7 +402,7 @@ export default function App() {
             </p>
           </div>
           <div className="open-to-work about-centered">
-            <p className="otw-title">Open to work</p>
+            <p className="hero-subtitle">Open to work</p>
             <p className="otw-desc">
               Looking for junior software engineering roles in Sydney or
               remote/hybrid Australia. Open to in-person, hybrid, and remote
@@ -395,13 +470,20 @@ export default function App() {
                 className="btn btn-outline">
                 GitHub
               </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-outline">
+                ↓ Resume
+              </a>
             </div>
           </div>
         </div>
       </section>
 
       <footer>
-        <p>Built with React · 2026</p>
+        <p>Built with React & D3 · 2026</p>
       </footer>
     </>
   );
