@@ -43,7 +43,7 @@ const PROJECTS = [
   {
     name: "StudySprinter",
     tag: "AI · Full-Stack",
-    desc: "AI-powered study tool for generating flashcards and quizzes from any topic. Built full-stack from scratch with a ChatGPT-style sidebar, deck management, per-deck stats, and dark mode.",
+    desc: "AI-powered study tool for generating flashcards and quizzes from any topic. Built full-stack from scratch with a collapsible sidebar, deck management, per-deck stats, and dark mode.",
     stack: [
       "React",
       "FastAPI",
@@ -54,7 +54,7 @@ const PROJECTS = [
     ],
     github: "https://github.com/annakuchina/studysprinter",
     live: "https://studysprinter.vercel.app/",
-    img: "/screenshots/studysprinter.png",
+    img: `${process.env.PUBLIC_URL}/screenshots/studysprinter.jpg`,
     reverse: false,
   },
   {
@@ -64,7 +64,7 @@ const PROJECTS = [
     stack: ["React", "JavaScript", "Atlassian Forge", "Forge KVS", "Agile"],
     github: null,
     live: null,
-    img: "/screenshots/jirapets.png",
+    img: `${process.env.PUBLIC_URL}/screenshots/jirapets.jpg`,
     note: "Available to discuss in interviews",
     reverse: true,
   },
@@ -74,19 +74,19 @@ const EARLIER = [
   {
     name: "Tower Defence Game",
     tech: "Python · Pygame · Procreate",
-    img: "/screenshots/towerdefence.png",
+    img: `${process.env.PUBLIC_URL}/screenshots/towerdefence.jpg`,
     link: "https://github.com/annakuchina/Tower-Defense-Game",
   },
   {
     name: "Match-3 Game",
     tech: "Python · Pygame · Procreate",
-    img: "/screenshots/match3.png",
+    img: `${process.env.PUBLIC_URL}/screenshots/match3.jpg`,
     link: "https://github.com/annakuchina/woodland-game",
   },
   {
     name: "Drum Machine",
     tech: "React · Redux · CSS",
-    img: "/screenshots/drummachine.png",
+    img: `${process.env.PUBLIC_URL}/screenshots/drummachine.jpg`,
     link: "https://codepen.io/annakuchina/full/vYKExoB",
   },
 ];
