@@ -45,7 +45,7 @@ const PROJECTS = [
   {
     name: "StudySprinter",
     tag: "AI · Full-Stack",
-    desc: "AI-powered study tool for generating flashcards and quizzes from any topic. Built full-stack from scratch with a collapsible sidebar, deck management, per-deck stats, and dark mode.",
+    desc: "A full-stack study app that turns any topic into a structured study workflow. Generate flashcards, take quizzes, write notes, and track progress per deck. Built so AI-generated content becomes something you can return to, not just a one-off answer.",
     stack: [
       "React",
       "FastAPI",
@@ -57,18 +57,18 @@ const PROJECTS = [
     github: "https://github.com/annakuchina/studysprinter",
     live: "https://studysprinter.vercel.app/",
     img: `${process.env.PUBLIC_URL}/screenshots/studysprinter.jpg`,
-    reverse: false,
+    role: "Solo full-stack project. Designed the product flow, built the React frontend and FastAPI backend, integrated the OpenAI API, designed the Supabase schema, and deployed the application end to end.",
   },
   {
     name: "Jira Pets",
     tag: "Atlassian Forge · Capstone",
-    desc: "Gamified Jira dashboard plugin where your ticket activity drives a virtual pet system: XP, level progression, health, happiness, and an in-app shop. Built in a 6-person Agile team with mentorship from an Atlassian engineer.",
+    desc: "A Jira dashboard gadget that turns routine ticket activity into visible progress. Completing tasks earns XP and keeps your pet healthy. Miss tasks and your pet's health drops, motivating you to complete work on time. Built as a six-person Agile capstone with mentorship from an Atlassian engineer.",
     stack: ["React", "JavaScript", "Atlassian Forge", "Forge KVS", "Agile"],
     github: null,
     live: null,
     img: `${process.env.PUBLIC_URL}/screenshots/jirapets.jpg`,
+    role: "Built the level-up modal, pet reset modal, heart animation, and Jest tests with Forge bridge mocking.",
     note: "Available to discuss in interviews",
-    reverse: true,
   },
 ];
 
@@ -284,13 +284,42 @@ export default function App() {
                 <p className="section-eyebrow">Full-Stack Developer · Sydney</p>
                 <h1 className="hero-title">Anna Kuchina</h1>
                 <p className="hero-subtitle">
-                  Building software that actually gets used.
+                  Turning ideas into deployed products.
                 </p>
                 <p className="hero-bio">
                   CS graduate from UNSW. I build full-stack apps, from the UI
                   down to the API and database. Currently open to junior
                   software engineering roles in Sydney or remote.
                 </p>
+
+                <div className="hero-links">
+                  <a
+                    href="mailto:annakuchina2@gmail.com"
+                    className="btn btn-primary">
+                    Email me
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/annakuchina"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-outline">
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://github.com/annakuchina"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-outline">
+                    GitHub
+                  </a>
+                  <a
+                    href={`${process.env.PUBLIC_URL}/resume.pdf`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-outline">
+                    ↓ Resume
+                  </a>
+                </div>
               </div>
               <BubbleField />
             </div>
@@ -319,8 +348,7 @@ export default function App() {
           </p>
           {PROJECTS.map((p) => (
             <div className="project-card" key={p.name}>
-              <div
-                className={`project-card-inner${p.reverse ? " reverse" : ""}`}>
+              <div className={"project-card-inner"}>
                 <div className="project-screenshot">
                   {p.live ? (
                     <a href={p.live} target="_blank" rel="noreferrer">
@@ -341,6 +369,12 @@ export default function App() {
                       </span>
                     ))}
                   </div>
+                  {p.role && (
+                    <div className="project-role">
+                      <p className="project-role-label">My role</p>
+                      <p className="project-role-text">{p.role}</p>
+                    </div>
+                  )}
                   <div className="project-links">
                     {p.github && (
                       <a
@@ -364,8 +398,9 @@ export default function App() {
                         style={{
                           fontSize: "0.78rem",
                           padding: "0.45rem 0.9rem",
+                          textDecoration: "underline",
                         }}>
-                        Link
+                        https://studysprinter.vercel.app/
                       </a>
                     )}
                     {p.note && <span className="project-note">{p.note}</span>}
@@ -382,9 +417,6 @@ export default function App() {
         <div className="container">
           <p className="section-eyebrow about-centered">Background</p>
           <h2 className="section-title about-centered">About</h2>
-          <p className="about-tagline about-centered">
-            Building software that actually gets used.
-          </p>
           <div className="about-text about-centered">
             <p>
               Full-stack developer based in Sydney, recently graduated from UNSW
@@ -404,10 +436,10 @@ export default function App() {
           <div className="open-to-work about-centered">
             <p className="hero-subtitle">Open to work</p>
             <p className="otw-desc">
-              Looking for junior software engineering roles in Sydney or
-              remote/hybrid Australia. Open to in-person, hybrid, and remote
-              roles. Frontend, full-stack, or anything where I'll write real
-              code.
+              Looking for junior frontend or full-stack roles where I can build
+              useful products and keep growing as an engineer. Open to
+              in-person, hybrid, and remote. Australian citizen, eligible to
+              work in Australia.
             </p>
           </div>
         </div>
