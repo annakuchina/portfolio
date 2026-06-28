@@ -231,6 +231,7 @@ function BubbleField() {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -273,7 +274,25 @@ export default function App() {
             <a href="#contact">Contact</a>
           </li>
         </ul>
+        <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </nav>
+      {menuOpen && (
+        <div className="mobile-menu">
+          <a href="#projects" onClick={() => setMenuOpen(false)}>
+            Projects
+          </a>
+          <a href="#about" onClick={() => setMenuOpen(false)}>
+            About
+          </a>
+          <a href="#contact" onClick={() => setMenuOpen(false)}>
+            Contact
+          </a>
+        </div>
+      )}
 
       {/* HERO */}
       <section className="hero" id="home">
