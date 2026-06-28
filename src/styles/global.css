@@ -205,7 +205,7 @@ nav {
   color: #fff;
 }
 .btn-primary:hover {
-  background: #222;
+  background: #333;
 }
 .btn-outline {
   background: transparent;
@@ -281,8 +281,34 @@ section:last-of-type {
 
 .project-card-inner {
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "screenshot info"
+    "role info";
   min-height: 400px;
+}
+
+.project-screenshot {
+  grid-area: screenshot;
+  background: #ffffff;
+  width: 100%;
+  border-right: 1px solid var(--border);
+}
+
+.project-role {
+  grid-area: role;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.project-info {
+  grid-area: info;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .project-card-inner.reverse {
@@ -292,14 +318,6 @@ section:last-of-type {
 
 .project-card-inner.reverse > * {
   direction: ltr;
-}
-
-.project-screenshot {
-  background: #ffffff;
-  width: 100%;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
 }
 
 .project-screenshot img {
@@ -316,13 +334,6 @@ section:last-of-type {
   display: block;
 }
 
-.project-info {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
 .project-tag {
   display: inline-block;
   font-size: 0.65rem;
@@ -333,8 +344,8 @@ section:last-of-type {
   border-radius: 3px;
   margin-bottom: 1rem;
   width: fit-content;
-  background: var(--ink);
-  color: #fff;
+  background: #f0f0f0;
+  color: #555;
   font-family: var(--font-body);
 }
 
@@ -365,7 +376,6 @@ section:last-of-type {
   font-size: 0.75rem;
   padding: 0.2rem 0.6rem;
   background: var(--bg2);
-  border: 1px solid var(--border);
   border-radius: 3px;
   color: var(--ink2);
   font-family: var(--font-body);
@@ -381,12 +391,6 @@ section:last-of-type {
 .project-note {
   font-size: 0.75rem;
   color: var(--ink3);
-}
-
-.project-role {
-  padding: 1.25rem 1.5rem 1.25rem 1.5rem;
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
 }
 
 .project-role-label {
@@ -557,10 +561,22 @@ footer {
 @media (max-width: 1000px) {
   .project-card-inner {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "screenshot"
+      "info"
+      "role";
+    max-width: 600px;
+    margin: 0 auto;
   }
+
   .project-screenshot {
     border-right: none;
     border-bottom: 1px solid var(--border);
+  }
+
+  .project-role {
+    border-right: none;
+    border-top: 1px solid var(--border);
   }
 
   .project-card {

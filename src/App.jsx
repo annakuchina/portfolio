@@ -348,8 +348,7 @@ export default function App() {
           </p>
           {PROJECTS.map((p) => (
             <div className="project-card" key={p.name}>
-              <div
-                className={`project-card-inner${p.reverse ? " reverse" : ""}`}>
+              <div className="project-card-inner">
                 <div className="project-screenshot">
                   {p.live ? (
                     <a href={p.live} target="_blank" rel="noreferrer">
@@ -357,13 +356,6 @@ export default function App() {
                     </a>
                   ) : (
                     <img src={p.img} alt={p.name} />
-                  )}
-                  {console.log("role:", p.role)}
-                  {p.role && (
-                    <div className="project-role">
-                      <p className="project-role-label">My role</p>
-                      <p className="project-role-text">{p.role}</p>
-                    </div>
                   )}
                 </div>
                 <div className="project-info">
@@ -377,7 +369,6 @@ export default function App() {
                       </span>
                     ))}
                   </div>
-
                   <div className="project-links">
                     {p.github && (
                       <a
@@ -401,14 +392,25 @@ export default function App() {
                         style={{
                           fontSize: "0.78rem",
                           padding: "0.45rem 0.9rem",
-                          textDecoration: "underline",
                         }}>
-                        https://studysprinter.vercel.app/
+                        studysprinter.vercel.app{" "}
+                        <span
+                          style={{
+                            fontFamily: "Inter, sans-serif",
+                          }}>
+                          ↗
+                        </span>
                       </a>
                     )}
                     {p.note && <span className="project-note">{p.note}</span>}
                   </div>
                 </div>
+                {p.role && (
+                  <div className="project-role">
+                    <p className="project-role-label">My role</p>
+                    <p className="project-role-text">{p.role}</p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
