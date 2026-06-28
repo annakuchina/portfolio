@@ -266,7 +266,6 @@ section:last-of-type {
   border-radius: 0.75rem;
   overflow: hidden;
   margin-bottom: 1.5rem;
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -282,21 +281,34 @@ section:last-of-type {
 
 .project-card-inner {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 3fr 2fr;
+  min-height: 400px;
+}
+
+.project-card-inner.reverse {
+  grid-template-columns: 2fr 3fr;
+  direction: rtl;
+}
+
+.project-card-inner.reverse > * {
+  direction: ltr;
 }
 
 .project-screenshot {
-  overflow: hidden;
   background: #ffffff;
   width: 100%;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
 }
 
 .project-screenshot img {
+  flex: 1;
   width: 100%;
-  height: auto;
   display: block;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: top;
+  display: block;
   background: #ffffff;
 }
 
@@ -372,10 +384,9 @@ section:last-of-type {
 }
 
 .project-role {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+  padding: 1.25rem 1.5rem 1.25rem 1.5rem;
   background: var(--bg2);
-  border-radius: 6px;
+  border-top: 1px solid var(--border);
 }
 
 .project-role-label {
@@ -533,6 +544,27 @@ footer {
   }
   nav {
     padding: 1rem;
+  }
+  .project-card-inner {
+    grid-template-columns: 1fr;
+  }
+  .project-card-inner.reverse {
+    grid-template-columns: 1fr;
+    direction: ltr;
+  }
+}
+
+@media (max-width: 1000px) {
+  .project-card-inner {
+    grid-template-columns: 1fr;
+  }
+  .project-screenshot {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-card {
+    max-width: 600px;
   }
 }
 
