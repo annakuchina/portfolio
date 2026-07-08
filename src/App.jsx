@@ -6,7 +6,7 @@ const CHIP_COLORS = {
   frontend: { base: [63, 136, 197], dark: false },
   backend: { base: [19, 111, 99], dark: false },
   language: { base: [255, 186, 8], dark: true },
-  ai: { base: [208, 0, 0], dark: false },
+  // ai: { base: [208, 0, 0], dark: false },
   database: { base: [3, 43, 67], dark: false },
   tools: { base: [92, 107, 192], dark: false },
   uiux: { base: [230, 81, 0], dark: false },
@@ -16,7 +16,6 @@ const LEGEND = [
   { key: "frontend", label: "Frontend" },
   { key: "backend", label: "Backend" },
   { key: "language", label: "Language" },
-  { key: "ai", label: "AI" },
   { key: "database", label: "Database" },
   { key: "tools", label: "Tools" },
   { key: "uiux", label: "UI/UX" },
@@ -24,18 +23,20 @@ const LEGEND = [
 
 const NODES = [
   { id: "React", cat: "frontend", r: 48 },
-  { id: "JavaScript", cat: "frontend", r: 44 },
-  { id: "TypeScript", cat: "frontend", r: 36 },
+  { id: "JavaScript", cat: "language", r: 44 },
+  { id: "TypeScript", cat: "language", r: 36 },
   { id: "D3", cat: "frontend", r: 32 },
-  { id: "UI / UX", cat: "uiux", r: 38 },
-  { id: "HTML / CSS", cat: "uiux", r: 34 },
+  { id: "UI / UX", cat: "uiux", r: 25 },
+  { id: "HTML / CSS", cat: "frontend", r: 34 },
   { id: "Python", cat: "language", r: 46 },
-  { id: "C", cat: "language", r: 26 },
+  { id: "Responsive Design", cat: "uiux", r: 52 },
+  { id: "Design Systems", cat: "uiux", r: 45 },
   { id: "FastAPI", cat: "backend", r: 40 },
-  { id: "Algorithms", cat: "tools", r: 38 },
+  { id: "Figma", cat: "uiux", r: 32 },
   { id: "Atlassian Forge", cat: "tools", r: 52 },
+  { id: "Accessibility", cat: "uiux", r: 36 },
   { id: "REST APIs", cat: "backend", r: 36 },
-  { id: "OpenAI API", cat: "ai", r: 43 },
+  { id: "OpenAI API", cat: "backend", r: 43 },
   { id: "Supabase", cat: "database", r: 40 },
   { id: "PostgreSQL", cat: "database", r: 38 },
   { id: "Git", cat: "tools", r: 30 },
@@ -66,9 +67,10 @@ const PROJECTS = [
     stack: ["React", "JavaScript", "Atlassian Forge", "Forge KVS", "Agile"],
     github: null,
     live: null,
+    video: "https://www.youtube.com/watch?v=36hbX5SzgYo",
     img: `${process.env.PUBLIC_URL}/screenshots/jirapets.jpg`,
-    role: "Built the level-up modal, pet reset modal, heart animation, and Jest tests with Forge bridge mocking.",
-    note: "Available to discuss in interviews",
+    role: "Designed the cat and dog graphics for different levels, built the level-up modal, pet reset modal, and heart animation, implemented backend logic for pet-health decrease, and wrote Jest tests using Forge Bridge mocking.",
+    note: "Code private (Atlassian capstone)",
   },
 ];
 
@@ -111,7 +113,7 @@ const STATS = [
   },
   {
     label: "Open to",
-    value: "Junior roles · Sydney or remote",
+    value: "SWE roles · Sydney, remote or relocating",
     color: "#5C6BC0",
   },
 ];
@@ -307,8 +309,8 @@ export default function App() {
                 </p>
                 <p className="hero-bio">
                   CS graduate from UNSW. I build full-stack apps, from the UI
-                  down to the API and database. Currently open to junior
-                  software engineering roles in Sydney or remote.
+                  down to the API and database. Currently open to software
+                  engineering roles in Sydney or remote, and open to relocating.
                 </p>
 
                 <div className="hero-links">
@@ -421,6 +423,25 @@ export default function App() {
                         </span>
                       </a>
                     )}
+                    {p.video && (
+                      <a
+                        href={p.video}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn btn-primary"
+                        style={{
+                          fontSize: "0.78rem",
+                          padding: "0.45rem 0.9rem",
+                        }}>
+                        Watch demo{" "}
+                        <span
+                          style={{
+                            fontFamily: "Inter, sans-serif",
+                          }}>
+                          ↗
+                        </span>
+                      </a>
+                    )}
                     {p.note && <span className="project-note">{p.note}</span>}
                   </div>
                 </div>
@@ -460,10 +481,10 @@ export default function App() {
           <div className="open-to-work about-centered">
             <p className="hero-subtitle">Open to work</p>
             <p className="otw-desc">
-              Looking for junior frontend or full-stack roles where I can build
-              useful products and keep growing as an engineer. Open to
-              in-person, hybrid, and remote. Australian citizen, eligible to
-              work in Australia.
+              Looking for frontend or full-stack roles where I can build useful
+              products and keep growing as an engineer. Open to in-person,
+              hybrid and remote work. Australian citizen, eligible to work in
+              Australia.
             </p>
           </div>
         </div>
@@ -504,7 +525,7 @@ export default function App() {
           <div className="contact-inner">
             <h2 className="contact-title">Get in touch</h2>
             <p className="contact-sub">
-              Open to junior software engineering roles in Sydney or remote.
+              Open to software engineering roles in Sydney or remote.
             </p>
             <div className="contact-links">
               <a
