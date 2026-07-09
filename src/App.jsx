@@ -548,7 +548,7 @@ export default function App() {
                 GitHub
               </a>
               <a
-                href="/resume.pdf"
+                href="/Anna_Kuchina_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="btn btn-outline">
