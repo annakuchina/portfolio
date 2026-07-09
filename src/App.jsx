@@ -548,7 +548,7 @@ export default function App() {
                 GitHub
               </a>
               <a
-                href="/Anna_Kuchina_Resume.pdf"
+                href={`${process.env.PUBLIC_URL}/Anna_Kuchina_Resume.pdf`}
                 target="_blank"
                 rel="noreferrer"
                 className="btn btn-outline">
